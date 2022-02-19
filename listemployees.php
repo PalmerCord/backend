@@ -1,5 +1,6 @@
 <?php
-
+require_once ('./util/secure_conn.php');
+require_once ('./util/valid_admin.php');
 require_once ('./model/database.php');
 require_once ('./model/employee.php');
 
@@ -62,11 +63,9 @@ $contractors = ContractorDB::getContractors();
 
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link scrollto" href="#events">Experiences</a></li>
-          <li><a class="nav-link scrollto" href="#book-a-stay">Booking</a></li>
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          
+          <li><a class="nav-link scrollto active" href="index.html">Home</a></li>
+          <li><a class="nav-link scrollto" href="admin.php">Admin</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -75,21 +74,19 @@ $contractors = ContractorDB::getContractors();
   </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center">
+  <section id="employee" class="d-flex align-items-center">
     <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
       <div class="row">
         <div class="col-lg-8">
             <h1>Employee List</h1>
             <p>
-            <ul>
+            <ul style="list-style-type:none;">
                 <?php foreach ($contractors as $contractor) : ?>
                 <li> <?php echo $contractor->getFirstName(); ?> </li>
                 <?php endforeach; ?>
             </ul>
             </p>
-          <div class="btns">
-            <a href="#" class="btn-book animated fadeInUp scrollto"><span>Click</span></a>
-          </div>
+
         </div>
       </div>
     </div>

@@ -6,33 +6,45 @@
  * 
  */
 //read input from POST
-$first_name = filter_input(INPUT_POST, 'name');
-$email_address = filter_input(INPUT_POST, 'email');
-$contact_reason = filter_input(INPUT_POST, 'subject');
-$contact_message = filter_input(INPUT_POST, 'message');
-
-//validate input
-if ($first_name == null || $email_address == null || 
-        $contact_reason == null || $contact_message == null) {
-    $error = "Invalid :P Try Again..";
-    echo "Form Data Error: " . $error;
-    exit();
-} else {
-    //data is valid. define pdo $ insert data.
-    try {  
-
-        require_once ('./model/database.php');
-        require_once ('./model/visit.php');
-        
-        addVisit($first_name, $email_address, $contact_reason, $contact_message);
-    } catch (PDOException $ex) {
-        $error_message = $e->getMessage();
-        echo 'DB Error: ' . $error_message;
-    }
-    // add to database - QUER | PEREPARE | BIND | EXECUTE | CLOSE
-     
-
-}
+//$first_name = filter_input(INPUT_POST, 'name');
+//$email_address = filter_input(INPUT_POST, 'email');
+//$contact_reason = filter_input(INPUT_POST, 'subject');
+//$contact_message = filter_input(INPUT_POST, 'message');
+//
+////validate input
+//if ($first_name == null || $email_address == null || 
+//        $contact_reason == null || $contact_message == null) {
+//    $error = "Invalid :P Try Again..";
+//    echo "Form Data Error: " . $error;
+//    exit();
+//} else {
+//    //data is valid. define pdo $ insert data.
+//    try {  
+////        $dsn = 'mysql:host=localhost;dbname=dsr';
+////        $username = 'cpalmer';
+////        $password = 'Pa$$w0rd';
+////        $db = new PDO($dsn, $username, $password);
+//        require_once ('.model/database.php');
+//        require_once ('.model/visit.php');
+////        $db = Database::getDB();
+//        addVisit($first_name, $email_address, $contact_reason, $contact_message);
+//    } catch (PDOException $ex) {
+//        $error_message = $e->getMessage();
+//        echo 'DB Error: ' . $error_message;
+//    }
+//    // add to database - QUER | PEREPARE | BIND | EXECUTE | CLOSE
+//     
+//    $query = 'INSERT INTO contact
+//	(first_name, email_address, contact_reason, contact_message, contact_date, contractor_id)
+//        VALUES (:name, :email, :subject, :message, NOW(), 1)';
+//       $statement = $db->prepare($query);
+//        $statement->bindValue(':name', $first_name);
+//        $statement->bindValue(':email', $email_address);
+//        $statement->bindValue(':subject', $contact_reason);
+//        $statement->bindValue(':message', $contact_message);
+//        $statement->execute();
+//        $statement->closeCursor();
+//}
 ?>
 
 <!DOCTYPE html>
@@ -90,8 +102,8 @@ if ($first_name == null || $email_address == null ||
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <li><a class="nav-link scrollto active" href="index.html">Home</a></li>
-          <li><a class="nav-link scrollto" href="admin.php">Admin</a></li>
-          <li><a class="nav-link scrollto" href="listemployees.php">Booking</a></li>
+          <li><a class="nav-link scrollto" href="admin.html">Admin</a></li>
+          <li><a class="nav-link scrollto" href="listemployees.php">Employees</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -104,11 +116,11 @@ if ($first_name == null || $email_address == null ||
     <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
       <div class="row">
         <div class="col-lg-8">
-          <h1>Thank you <span><?php echo $first_name; ?></span> for your submission. We will respond as soon as possible</h1>
-          <h2>Your dream experience awaits</h2>
+            <h1>Sorry no <span>unauthorized</span> access!</h1>
+         
 
           <div class="btns">
-            <a href="#book-a-stay" class="btn-book animated fadeInUp scrollto">Book <span>your</span> retreat</a>
+            <a href="index.html" class="btn-book animated fadeInUp scrollto">Home</a>
           </div>
         </div>
       </div>

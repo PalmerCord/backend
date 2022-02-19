@@ -7,15 +7,17 @@
  * 
  */
 
+require_once ('./util/secure_conn.php');
+require_once ('./util/valid_admin.php');
 
 try {
     require_once ('./model/database.php');
     require_once ('./model/visit.php');
     require_once ('./model/employee.php');
-} catch (PDOException $e) {
+} catch (PDOException $ex) {
     $error_message = $e->getMessage();
     echo 'DB Error: ' . $error_message;
-    exit();
+   
 }
 $action = filter_input(INPUT_POST, 'action');
 if ($action == NULL) {
@@ -26,53 +28,32 @@ if ($action == NULL) {
 }
 
 if ($action == 'list_visits') {
-    $contact_id = filter_input(INPUT_GET, 'contact_id', FILTER_VALIDATE_INT);
-    if ($contact_id == NULL || $contact_id == FALSE) {
-        $contact_id = 1;
+    $contractor_id = filter_input(INPUT_GET, 'contractor_id', FILTER_VALIDATE_INT);
+    if ($contractor_id == NULL || $contractor_id == FALSE) {
+        $contractor_id = filter_input(INPUT_POST, 'contractor_id', FILTER_VALIDATE_INT);
+        if ($contractor_id == NULL || $contractor_id == FALSE) {
+            $contractor_id = 1;
+        }
     }
     try {
-//        $queryContact = 'SELECT * FROM contact';
-//        $statement1 = $db->prepare($queryContact);
-//        $statement1->execute();
-//        $contacts = $statement1;
         $contractors = ContractorDB::getCon();
-        $visits = getVisitByCon($contracor_id);
+        $visits = getVisitByCon($contractor_id);
         
         
-//        $queryVisit = 'SELECT visit_id, visit.first_name, visit.email_address, visit_reason, '
-//                . 'visit.contact_id '
-//                . 'FROM visit '
-//                . 'JOIN contractor on visit.contractor_id = contractor.contractor_id '
-//                . 'WHERE contractor.contractor_id = :contractor_id '
-//                . 'ORDER BY visit_date ';
-//
-//        $statement2 = $db->prepare($queryVisit);
-//        $statement2->bindValue(":contact_id", $contact_id);
-//        $statement2->execute();
-//        $visits = $statement2;
+//       
+        
     } catch (PDOException $ex) {
         $error_message = $e->getMessage();
         echo 'DB error: ' . $error_message;
     }
 } else if ($action == 'delete_visit') {
     $visit_id = filter_input(INPUT_POST, 'visit_id', FILTER_VALIDATE_INT);
-    $employee_id = filter_input(INPUT_POST, 'employee_id', FILTER_VALIDATE_INT);
+    $contractor_id = filter_input(INPUT_POST, 'contractor_id', FILTER_VALIDATE_INT);
     delVisit($visit_id);
-    
-    header("Location: admin.php?employee_id=$contractor_id");
+
+    header("Location: admin.php?contractor_id=$contractor_id");
 }
-//
-//
-//$query = 'INSERT INTO contact
-//	(first_name, email_address, contact_reason, contact_message, contact_date, contractor_id)
-//        VALUES (:name, :email, :subject, :message, NOW(), 1)';
-//$statement = $db->prepare($query);
-//$statement->bindValue(':name', $first_name);
-//$statement->bindValue(':email', $email_address);
-//$statement->bindValue(':subject', $contact_reason);
-//$statement->bindValue(':message', $contact_message);
-//$statement->execute();
-//$statement->closeCursor();
+
 ?>
 
 <!DOCTYPE html>
@@ -129,11 +110,8 @@ if ($action == 'list_visits') {
 
                 <nav id="navbar" class="navbar order-last order-lg-0">
                     <ul>
-                        <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-                        <li><a class="nav-link scrollto" href="#about">About</a></li>
-                        <li><a class="nav-link scrollto" href="#events">Experiences</a></li>
-                        <li><a class="nav-link scrollto" href="#book-a-stay">Booking</a></li>
-                        <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                        <li><a class="nav-link scrollto" href="index.html">Home</a></li>
+                        <li><a class="nav-link scrollto" href="listemployees.php">Employees</a></li>
                     </ul>
                     <i class="bi bi-list mobile-nav-toggle"></i>
                 </nav><!-- .navbar -->
@@ -150,10 +128,10 @@ if ($action == 'list_visits') {
                         <h3>Select Employee</h3>
                         <aside>
                             <ul style="list-style-type:none;">
-                                <?php foreach ($contacts as $contact) : ?>
+                                <?php foreach ($contractors as $contractor) : ?>
                                     <li>
-                                        <a href="?contact_id=<?php echo $contact['contact_id']; ?>">
-                                            <?php echo $contact['first_name']; ?>
+                                        <a href="?contractor_id=<?php echo $contractor['contractor_id']; ?>">
+                                            <?php echo $contractor['first_name']; ?>
 
                                         </a>
                                     </li>
